@@ -50,10 +50,11 @@ mixin template decorated(string name, alias fun)
             }
         }
 
-        static if (isCallable!(typeof(impl!(__traits(getAttributes, _internal_helper_))())))
-            return impl!(__traits(getAttributes, _internal_helper_))()();
+        auto call = impl!(__traits(getAttributes, _internal_helper_))();
+        static if (isCallable!(typeof(call)))
+            return call();
         else
-            return impl!(__traits(getAttributes, _internal_helper_))();
+            return call;
     }
 
     mixin("alias "~name~" = _internal_helper_;");
