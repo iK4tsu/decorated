@@ -10,7 +10,7 @@ struct decor(alias fun, args...) if(isDecoratedFun!fun) {}
 mixin template decorated(string name, alias fun)
     if (isDecoratedName!name && isDecoratedFun!fun)
 {
-    auto _internal_helper_()
+    auto _internal_helper_(Args...)(Args args)
     {
         auto impl(attrs...)()
         {
