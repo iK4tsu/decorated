@@ -53,12 +53,13 @@ mixin template decorated(string name, alias fun)
         auto call = impl!(__traits(getAttributes, _internal_helper_))();
         static if (isCallable!(typeof(call)))
         {
+            import std.traits : ParameterDefaults;
             static if (args.length)
             {
                 import core.lifetime : forward;
-                return call(forward!args);
+                return call(forward!args, ParameterDefaults!fun[args.length .. $]);
             }
-            else return call();
+            else return call(ParameterDefaults!fun);
         }
         else return call;
     }
