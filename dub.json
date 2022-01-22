@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"João Lourenço"
+	],
+	"copyright": "Copyright © 2022, João Lourenço",
+	"description": "A D library implementation of Python's decorators",
+	"license": "BSL-1.0",
+	"name": "decorated",
+	"sourcePaths": [ "source" ],
+	"targetName": "decorated",
+	"targetPath": "bin"
+}
