@@ -52,9 +52,15 @@ mixin template decorated(string name, alias fun)
 
         auto call = impl!(__traits(getAttributes, _internal_helper_))();
         static if (isCallable!(typeof(call)))
-            return call();
-        else
-            return call;
+        {
+            static if (args.length)
+            {
+                import core.lifetime : forward;
+                return call(forward!args);
+            }
+            else return call();
+        }
+        else return call;
     }
 
     mixin("alias "~name~" = _internal_helper_;");
