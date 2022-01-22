@@ -144,3 +144,40 @@ unittest
         assert(baz() == "D roks: Hello Decorated");
     }
 }
+
+@safe nothrow unittest
+{
+    auto cache(F)(F f)
+    {
+        import std.functional : memoize;
+        alias mem = memoize!f;
+        return &mem;
+    }
+
+    // https://issues.dlang.org/show_bug.cgi?id=22694
+    struct S
+    {
+        static size_t expensive; // simulates an expensive algorithm
+
+        @cache
+        mixin decorated!("cached", (size_t n = 1)
+        {
+            expensive++; // simulates an expensive algorithm
+            return expensive;
+        });
+    }
+
+    with (S.init)
+    {
+        // runs expensive stuff
+        assert(cached(46) == 1);
+        assert(cached(45) == 2);
+
+        // skips the expensive stuff
+        assert(cached(46) == 1);
+        assert(cached(45) == 2);
+
+        // can be used with default arguments
+        assert(cached() == 3);
+    }
+}
