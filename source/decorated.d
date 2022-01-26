@@ -67,7 +67,7 @@ mixin template decorated(string name, alias fun)
     mixin("alias "~name~" = _internal_helper_;");
 }
 
-unittest
+@safe pure nothrow unittest
 {
     auto myMap(F)(F f)
     {
@@ -96,7 +96,7 @@ unittest
     }
 }
 
-unittest
+@safe pure nothrow unittest
 {
     auto hello(F)(F f)
     {
