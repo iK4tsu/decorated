@@ -124,7 +124,7 @@ unittest
             return "Decorated";
         });
 
-        @decor!(say, "D roks:")
+        @decor!(say, "D rox:")
         @hello
         mixin decorated!("bar",
         {
@@ -132,7 +132,7 @@ unittest
         });
 
         auto oldBaz() { return "Decorated"; }
-        @decor!(say, "D roks:")
+        @decor!(say, "D rox:")
         @hello
         mixin decorated!("baz", oldBaz);
     }
@@ -140,8 +140,8 @@ unittest
     with (S.init)
     {
         assert(foo() == "Hello Decorated");
-        assert(bar() == "D roks: Hello Decorated");
-        assert(baz() == "D roks: Hello Decorated");
+        assert(bar() == "D rox: Hello Decorated");
+        assert(baz() == "D rox: Hello Decorated");
     }
 }
 
