@@ -2,7 +2,19 @@ module decorated;
 
 import std.traits : isCallable;
 
-private enum isDecoratedName(string str) = __traits(compiles, { mixin("int "~str~";"); });
+private enum isDecoratedName(string str) = {
+    import std.ascii : isDigit;
+    import std.uni : isAlpha;
+
+    alias alpha = (in dchar c) => c == '_' || isAlpha(c);
+    alias alphanum = (in dchar c) => alpha(c) || isDigit(c);
+
+    if (!str.length || isDigit(str[0])) return false;
+
+    foreach (dchar dc; str) if (!alphanum(dc)) return false;
+
+    return true;
+} ();
 private enum isDecoratedFun(alias smb) = isCallable!smb || __traits(isTemplate, smb);
 
 struct decor(alias fun, args...) if(isDecoratedFun!fun) {}
